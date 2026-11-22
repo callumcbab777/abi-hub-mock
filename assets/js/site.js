@@ -5,6 +5,11 @@ const CAL='https://calendly.com/callum-ambarorlando/30min';
 const toast=(t)=>{let el=$('.toast');if(!el){el=document.createElement('div');el.className='toast';document.body.appendChild(el)}el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3200)};
 window.abiToast=toast;
 
+/* Header state + scroll reveals (respect reduced motion) */
+const hdr=$('.header');const onScroll=()=>hdr&&hdr.classList.toggle('scrolled',window.scrollY>8);window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+$$('main>section:not(.hero):not(.proof),.with-side .content>section').forEach(el=>{if(!el.querySelector('.reveal'))el.classList.add('reveal')});
+if(reduce||!('IntersectionObserver' in window)){$$('.reveal').forEach(e=>e.classList.add('in'))}else{const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.06});$$('.reveal').forEach(e=>ro.observe(e));}
 /* Mobile drawer + More menu */
 const burger=$('.burger'),drawer=$('.drawer');
 burger&&burger.addEventListener('click',()=>{const o=drawer.classList.toggle('open');burger.setAttribute('aria-expanded',o)});

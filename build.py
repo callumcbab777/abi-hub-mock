@@ -105,8 +105,8 @@ def page(fn,body,desc="",context=None):
     open(os.path.join(OUT,fn),'w').write(doc)
 
 # ---------------- components
-def hero(eyebrow,h1,lede,cls="ph-dusk",btns="",short=False,crumbs=""):
-    return f'''<section class="hero{" short" if short else ""}">{photo(cls)}<div class="wrap">{crumbs}<span class="eyebrow">{eyebrow}</span><h1>{h1}</h1><p class="lede">{lede}</p>{f'<div class="btn-row" style="margin-top:28px">{btns}</div>' if btns else ""}</div></section>'''
+def hero(eyebrow,h1,lede,cls="ph-dusk",btns="",short=False,crumbs="",home=False):
+    return f'''<section class="hero{" short" if short else ""}{" hero-home" if home else ""}">{photo(cls)}<div class="wrap">{crumbs}<span class="eyebrow">{eyebrow}</span><h1>{h1}</h1><p class="lede">{lede}</p>{f'<div class="btn-row hero-cta">{btns}</div>' if btns else ""}</div></section>'''
 def crumbs(*items): return '<div class="breadcrumbs">'+' / '.join(f'<a href="{h}">{l}</a>' if h else l for h,l in items)+'</div>'
 def proof(items,note=""):
     s=''.join(f'<div class="item"><div class="fig">{f}</div><div class="lbl">{l}</div><div class="src">{src}</div></div>' for f,l,src in items)
@@ -159,26 +159,40 @@ def floorplans(live):
     return f'<div class="fp"><div class="list" role="listbox">{btn}</div><div class="view"><div class="plan"></div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px"><div><h3 class="pname" style="margin:0"></h3><p class="pmeta" style="margin:4px 0 0;font-size:15px"></p></div><div class="btn-row"><a class="btn small" href="#" data-save>Save plan</a><a class="textlink" href="#residences">Download PDF</a></div></div></div></div><p class="rate-note" style="margin-top:8px">Plan letters, plan mix, sizes and drawings are schematic placeholders. Real plans come from ABI marketing.</p>'
 
 # ================= PAGES
+PIONEER=[
+ ("Isla, ABI’s AI concierge","One concierge across every page and development. She answers from the same knowledge as the site, qualifies gently, recommends a development, area or guide, and hands over to a named advisor with the conversation summarised.","#",'data-open-isla',"Ask Isla"),
+ ("Live 3D availability","Where ABI controls inventory, buyers orbit the building, filter by level and see each residence’s status and price, starting with AMBAR Building 1.","development-ambar.html#availability","","See AMBAR availability"),
+ ("A UK-to-Florida buying platform","A six-step journey with GBP and CAD pricing, plain-English guidance on FIRPTA, ITIN and currency, UK-hours call booking and a buyer account to follow progress.","buying-from-the-uk.html","","The UK buyer journey"),
+ ("An insights engine","Market updates, guides and explainers drafted from defined sources, each carrying its source and as-of date, and approved by a person before it publishes.","insights.html","","Read insights"),
+]
+def pioneering(compact=False,dark=True):
+    rows=''.join(f'<li class="pi reveal"><span class="pi-n">0{k+1}</span><div class="pi-b"><h3>{t}</h3><p>{d}</p><a class="textlink" href="{h}" {attr}>{lab}</a></div></li>' for k,(t,d,h,attr,lab) in enumerate(PIONEER))
+    intro='<p class="lede">ABI is building the tools that make buying property from overseas clearer: one source of truth, shown the same way whether you browse the site or ask Isla.</p>'
+    if compact:
+        return f'<section id="pioneering"><span class="eyebrow">Pioneering</span><h2>New standards, built in-house</h2>{intro}<ol class="pioneer">{rows}</ol></section>'
+    return f'<section class="section {"dark" if dark else ""} pioneer-sec"><div class="wrap"><div class="split" style="align-items:end"><div><span class="eyebrow">Pioneering</span><h2>Setting new standards for buying property</h2></div>{intro}</div><ol class="pioneer">{rows}</ol></div></section>'
+
 def home():
-    b=hero("ABI Group &middot; Florida property","Florida homes, guided from the UK","ABI is the hub for buying, selling and owning property around Orlando, with developments like AMBAR, a partner network, and Isla, ABI&rsquo;s AI concierge, who knows it all.",
-      "ph-dusk",'<a class="btn light" href="developments.html">Explore developments</a><a class="btn ghost" href="#" data-open-isla>Ask Isla</a>')
-    b+=proof([("30+","Years of sales history in the US &amp; UK","Source: ABI"),("$6.5+ Billion","Sold","Source: ABI"),("35","Residences available, AMBAR Building 1","Sample. Live summary from ABI’s sales system")])
-    tiles=''.join(f'<a class="panel" href="{h}" style="text-decoration:none">{line_icon(i)}<h3>{t}</h3><p style="font-size:16px;margin:0">{d}</p></a>' for h,i,t,d in [("buy.html","home","Buy","New development, resale, and what’s right for you."),("buying-from-the-uk.html","fx","From the UK","Six steps, costs, FIRPTA, ITIN, currency and timelines."),("sell.html","key","Sell","How ABI markets and sells a property."),("services.html","people","Services","Financing, FX, legal, tax and property management partners.")])
-    b+=f'''<section class="section"><div class="wrap split"><div><span class="eyebrow">The ABI hub</span><h2>Everything ABI knows, in one place</h2><p class="lede">The company, the team, the markets, the buying journey and the services. Developments sit around the hub, each on a shared template.</p>
-<p>Two doors in: browse the sections, or ask Isla. Both lead to the same content, so the answers never disagree.</p><a class="textlink" href="about.html">About ABI</a></div><div class="grid g2">{tiles}</div></div></section>'''
-    b+=f'''<section class="section alt"><div class="wrap"><div class="split" style="align-items:end;margin-bottom:40px"><div><span class="eyebrow">Featured development</span><h2>AMBAR, Orlando</h2></div><p style="margin:0">The first development on ABI’s template. Building 1 has 132 residences across nine floor plans, from studio to three bedrooms. <a href="developments.html">See all developments</a></p></div>
-<div class="grid g3">{CARD_AMBAR()}{CARD_TWO()}<div class="panel cool ambar-accent" style="display:flex;flex-direction:column;justify-content:center"><span class="label">AMBAR live summary &middot; sample</span><div class="kpi" style="margin-top:14px"><div class="v">35 of 132</div><div class="k">Residences available, Building 1</div></div><div class="kpi" style="margin-top:20px"><div class="v">{P("live figure")}</div><div class="k">Lowest available price</div></div><a class="btn" href="development-ambar.html#availability" style="margin-top:22px;justify-content:center">View availability</a></div></div></div></section>'''
-    b+=f'<section class="section"><div class="wrap">{isla_prompt()}</div></section>'
+    b=hero("ABI Group &middot; United States &amp; United Kingdom","Over $6.5 billion sold. Thirty years of experience, now guiding Florida.","Thirty years of sales history in the US and UK, brought to Florida property for UK and international buyers: considered developments, a trusted partner network, and Isla, our AI concierge.",
+      "ph-dusk",f'<a class="btn light" href="developments.html">Explore developments</a><a class="textlink light" href="{CAL}" target="_blank" rel="noopener">Speak to an advisor</a>',home=True)
+    b+=proof([("30+","Years of sales history in the US &amp; UK","Source: ABI"),("$6.5+ Billion","Sold","Source: ABI"),("35","Residences available now at AMBAR Building 1","Sample. Live summary from ABI’s sales system")])
+    routes=''.join(f'<li class="reveal"><a href="{h}"><span class="r-t">{t}</span><span class="r-d">{d}</span><span class="r-a">&rarr;</span></a></li>' for h,t,d in [("buy.html","Buy","New development, resale, and what’s right for you."),("buying-from-the-uk.html","Buying from the UK","Six steps, costs, FIRPTA, ITIN, currency and timelines."),("sell.html","Sell","How ABI markets and sells a property."),("services.html","Services","Finance, FX, legal, tax and property management partners.")])
+    b+=f'''<section class="section intro"><div class="wrap split" style="align-items:start"><div class="reveal"><span class="eyebrow">The ABI hub</span><h2>One source of truth for Florida property</h2><p class="lede">The company, the team, the markets, the buying journey and the services, held in one place. Developments sit around the hub, each on a shared template.</p><a class="textlink" href="about.html">About ABI</a></div><ul class="routes">{routes}</ul></div></section>'''
+    b+=f'''<section class="section alt feature"><div class="wrap"><div class="feature-grid reveal"><a class="feature-img card-ambar" href="development-ambar.html">{photo("ph-dusk","AMBAR · photography placeholder",'style="aspect-ratio:5/4"')}<span class="tag">Selling</span></a>
+<div class="feature-txt"><span class="eyebrow">Featured development</span><h2>AMBAR, Orlando</h2><p class="lede">The first development on ABI’s template. Building 1 holds 132 residences across nine floor plans, from studio to three bedrooms.</p>
+<dl class="facts"><div><dt>Residences</dt><dd>132</dd></div><div><dt>Available now</dt><dd>35 <small>sample</small></dd></div><div><dt>Floor plans</dt><dd>9</dd></div></dl>
+<div class="btn-row"><a class="btn" href="development-ambar.html">Discover AMBAR</a><a class="textlink" href="development-ambar.html#availability">Live availability</a></div></div></div>
+<div class="also reveal"><span class="label">Also on the template</span><a href="development-continuum-miami.html"><span class="r-t">Continuum Miami</span><span class="r-d">North Bay Village, Miami &middot; Coming soon</span><span class="r-a">&rarr;</span></a><a href="developments.html"><span class="r-t">All developments</span><span class="r-d">Selling, coming soon and sold out</span><span class="r-a">&rarr;</span></a></div></div></section>'''
+    b+=pioneering()
+    st=''.join(f'<li class="reveal"><span class="pi-n">0{k+1}</span><h3>{t}</h3></li>' for k,(t,d) in enumerate(JOURNEY_STEPS))
+    b+=f'''<section class="section"><div class="wrap split" style="align-items:start"><div class="reveal"><span class="eyebrow">UK buyers, first-class</span><h2>From the UK to a Florida home, in six steps</h2><p class="lede">GBP pricing, UK-specific guidance and UK-hours call booking, throughout.</p><div class="btn-row"><a class="btn" href="buying-from-the-uk.html">Read the journey</a><a class="textlink" href="{CAL}" target="_blank" rel="noopener">Book a call</a></div></div><ol class="steps-list">{st}</ol></div></section>'''
     areas=[("Orlando","ph-street"),("Kissimmee","ph-landscape"),("ChampionsGate","ph-pool"),("Davenport","ph-facade")]
-    at=''.join(f'<a class="tile" href="areas.html#{n.lower()}">{photo(c,"")}<div class="t"><h3>{n}</h3><span>Drive times {P("to confirm")}</span></div></a>' for n,c in areas)
-    b+=f'''<section class="section alt"><div class="wrap"><span class="eyebrow">Areas</span><h2>Where to buy around Orlando</h2><p style="max-width:60ch">Guides to Orlando and the surrounding towns: demand, rental context, and drive times to the parks and the airport.</p>
-<div class="grid g4" style="margin-top:34px">{at}</div><p class="rate-note" style="margin-top:14px">Placeholder area set for the mock. The final list comes from the current abire.co.uk location pages.</p></div></section>'''
-    st=''.join(f'<div><h3>{t}</h3><p style="font-size:16px">{d}</p></div>' for t,d in JOURNEY_STEPS[:4])
-    b+=f'''<section class="section"><div class="wrap split"><div><span class="eyebrow">UK buyers first-class</span><h2>Buying from the UK, step by step</h2><p>GBP pricing, UK-specific guidance and UK-hours call booking appear throughout the site.</p><div class="btn-row"><a class="btn" href="buying-from-the-uk.html">Read the journey</a><a class="textlink" href="{CAL}" target="_blank" rel="noopener">Book a call</a></div></div>
-<div class="steps-h" style="grid-template-columns:repeat(2,1fr)">{st}</div></div></section>'''
-    li=''.join(f'<li><a href="insights-article.html" style="color:var(--stone)">{t}</a></li>' for t in ["Branded residences explained","Orlando market update "+P("month"),"FIRPTA and ITIN, in plain English"])
-    b+=f'''<section class="section dark"><div class="wrap split"><div><span class="eyebrow" style="color:#d7cdbd">Buyer stories</span><p class="quote" style="color:var(--stone)">&ldquo;{P("Named buyer story, with permission")}&rdquo;</p><p style="color:#a9b0c0">{P("Buyer name, location")}</p></div><div><h3>Latest insights</h3><ul class="list-check" style="color:#d9d2c6">{li}</ul></div></div></section>'''
-    page("index.html",b,"ABI Group: Florida property for UK and international buyers.")
+    at=''.join(f'<a class="tile reveal" href="areas.html#{n.lower()}">{photo(c,"")}<div class="t"><h3>{n}</h3><span>Area guide &rarr;</span></div></a>' for n,c in areas)
+    b+=f'''<section class="section alt"><div class="wrap"><div class="split" style="align-items:end;margin-bottom:56px"><div><span class="eyebrow">Areas</span><h2>Where to buy around Orlando</h2></div><p class="lede" style="margin:0">Demand, rental context, and drive times to the parks and the airport, town by town.</p></div>
+<div class="grid g4">{at}</div><p class="rate-note" style="margin-top:18px">Placeholder area set for the mock; the final list comes from the current abire.co.uk location pages.</p></div></section>'''
+    li=''.join(f'<li><a href="insights-article.html">{t}</a></li>' for t in ["Branded residences explained","Orlando market update "+P("month"),"FIRPTA and ITIN, in plain English"])
+    b+=f'''<section class="section"><div class="wrap split" style="align-items:start"><div class="reveal"><span class="eyebrow">Buyer stories</span><p class="quote">&ldquo;{P("Named buyer story, with permission")}&rdquo;</p><p class="rate-note">{P("Buyer name, location")}</p></div><div class="reveal"><span class="eyebrow">Latest insights</span><ul class="routes plain">{li}</ul><a class="textlink" href="insights.html">All insights</a></div></div></section>'''
+    page("index.html",b,"ABI Group: over $6.5 billion sold across thirty years in the US and UK. Florida property for UK and international buyers.")
 
 def developments():
     b=hero("Developments","Every project, one template","AMBAR is the first. New developments are added as new entries on the template, not new builds.","ph-facade",short=True,crumbs=crumbs(("index.html","Home"),(None,"Developments")))
@@ -254,10 +268,11 @@ def uk():
     page("buying-from-the-uk.html",b)
 
 def about():
-    secs=[("history","History"),("team","Team"),("offices","Offices")]
+    secs=[("history","History"),("pioneering","Pioneering"),("team","Team"),("offices","Offices")]
     team=''.join(f'<div class="card" style="box-shadow:none">{photo("ph-interior","Portrait placeholder",chr(32)+"style=\"aspect-ratio:4/5\"")}<div class="body"><h3>{P("Team member name")}</h3><span class="label">{P("Role")}</span><p>{P("Specialties")}</p><div class="meta"><a class="textlink" href="{CAL}" target="_blank" rel="noopener">Book a call</a></div></div></div>' for _ in range(4))
     ms='<div class="kpi"><div class="v">30+</div><div class="k">Years of sales history in the US &amp; UK</div></div><div class="kpi"><div class="v">$6.5+ Billion</div><div class="k">Sold</div></div>'+''.join(f'<div class="kpi"><div class="v" style="font-size:22px">{P("year")}</div><div class="k">{P("milestone")}</div></div>' for _ in range(2))
     c=f'''<section id="history"><span class="eyebrow">History</span><h2>Our story</h2><div class="split" style="align-items:start"><p class="lede">{P("Company history, from the current abire.co.uk About page")}</p><div class="grid g2">{ms}</div></div></section>
+{pioneering(compact=True)}
 <section id="team"><span class="eyebrow">Team</span><h2>The people you’ll work with</h2><p>Profiles rewritten with roles, specialties and a booking link.</p><div class="grid g4">{team}</div></section>
 <section id="offices"><span class="eyebrow">Offices</span><h2>UK and US</h2><div class="grid g2"><div class="panel"><h3>United Kingdom</h3><p>{P("UK office address")}<br>{P("UK number")}</p></div><div class="panel"><h3>United States</h3><p>{P("US office address")}<br>{P("US number")}</p></div></div></section>'''
     b=hero("About ABI","About ABI Group",P("One-line positioning — to confirm"),"ph-street",short=True,crumbs=crumbs(("index.html","Home"),(None,"About")))

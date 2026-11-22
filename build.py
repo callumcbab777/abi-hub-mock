@@ -13,7 +13,7 @@ PAGES=[
  ("development-ambar.html","AMBAR",1,"Sell one project (development template, AMBAR first)","Template sections, 3D availability, floor plans, currency toggle, disclaimers","Live and maintained"),
  ("buy.html","Buy",1,"Help buyers choose a route","Route chooser, new versus resale, Isla prompt","Maintained"),
  ("buying-from-the-uk.html","Buying from the UK",1,"Walk through the journey","Six-step journey, cost and tax explainers, currency toggle, call booking","Maintained, rates from a feed"),
- ("about.html","About & team",1,"Build credibility","History, team profiles, affiliations, offices","Maintained"),
+ ("about.html","About & team",1,"Build credibility","History, team profiles, offices","Maintained"),
  ("contact.html","Contact & book a call",1,"Capture enquiries","Form, calendar booking, UK and US numbers","CRM"),
  ("areas.html","Areas",2,"Compare locations","Area index, area guide, drive-time map","Maintained, external"),
  ("services.html","Services",2,"Explain the partner network","Service cards, partner introductions","Maintained"),
@@ -27,7 +27,7 @@ PAGES=[
  ("events.html","Events",3,"Run launches and webinars","Event list, registration, recordings","Maintained, CRM"),
  ("client-area.html","Client area",3,"Support buyers in progress","Saved homes, documents, journey status, messaging","Account data"),
  ("press-careers.html","Press & careers",3,"Credibility and recruiting","Coverage list, roles list","Maintained"),
- ("development-two.html","Development Two (placeholder)",1,"Shows the template with no live availability","Template sections; Availability replaced by 'Register interest'","Maintained only"),
+ ("development-continuum-miami.html","Continuum Miami",1,"Second development on the template (coming soon, no live availability)","Template sections; Availability replaced by 'Register interest'","Maintained only"),
 ]
 META={p[0]:p for p in PAGES}
 PRIMARY=[("developments.html","Developments"),("buy.html","Buy"),("buying-from-the-uk.html","Buying from the UK"),("areas.html","Areas"),("services.html","Services"),("insights.html","Insights"),("about.html","About")]
@@ -70,7 +70,7 @@ def header(fn):
 
 def footer(fn):
     m=META[fn]
-    cols=[("Developments",[("developments.html","All developments"),("development-ambar.html","AMBAR"),("development-two.html","Development Two"),("compare.html","Compare")]),
+    cols=[("Developments",[("developments.html","All developments"),("development-ambar.html","AMBAR"),("development-continuum-miami.html","Continuum Miami"),("compare.html","Compare")]),
           ("Buying",[("buy.html","Buy"),("buying-from-the-uk.html","Buying from the UK"),("areas.html","Areas"),("services.html","Services"),("investor-hub.html","Investor hub"),("sell.html","Sell")]),
           ("Partners",[("brokers.html","Brokers"),("developer-partners.html","Developer partners"),("events.html","Events"),("insights.html","Insights")]),
           ("ABI Group",[("about.html","About & team"),("press-careers.html","Press & careers"),("client-area.html","Client area"),("contact.html","Contact & book a call")])]
@@ -111,13 +111,13 @@ def crumbs(*items): return '<div class="breadcrumbs">'+' / '.join(f'<a href="{h}
 def proof(items,note=""):
     s=''.join(f'<div class="item"><div class="fig">{f}</div><div class="lbl">{l}</div><div class="src">{src}</div></div>' for f,l,src in items)
     n=f'<div class="wrap" style="padding-bottom:18px"><p class="proof-note" style="color:#9da6b8;margin:0;font-family:Inter,sans-serif;font-size:12px">{note}</p></div>' if note else ""
-    return f'<section class="proof" aria-label="Proof strip"><div class="wrap">{s}</div>{n}</section>'
+    return f'<section class="proof" aria-label="Proof strip"><div class="wrap" style="--cols:{len(items)}">{s}</div>{n}</section>'
 def card(href,name,tag,tagcls,desc,price_html,cls="ph-facade"):
     return f'''<a class="card" href="{href}"><div style="position:relative">{photo(cls)}<span class="tag {tagcls}">{tag}</span></div><div class="body"><h3>{name}</h3><p>{desc}</p><div class="meta"><span class="label">Price from</span><span class="num">{price_html}</span></div></div></a>'''
 def CARD_AMBAR(): return card_ambar("development-ambar.html","AMBAR","Selling","","Orlando. Building 1: 132 residences, 9 floor plans from studio to three bedrooms.",P("to confirm"),"ph-dusk")
 def card_ambar(*a):
     return card(*a).replace('<a class="card"','<a class="card card-ambar"',1)
-def CARD_TWO(): return card("development-two.html","Development Two","Coming soon","soon","Placeholder entry showing a second project on the same template.",P("TBC"),"ph-street")
+def CARD_TWO(): return card("development-continuum-miami.html","Continuum Miami","Coming soon","soon","North Bay Village, Miami. Details to follow; register interest to hear first.",P("to confirm"),"ph-street")
 def isla_prompt(t="Not sure where to start? Ask Isla."):
     return f'<div class="isla-prompt"><span class="isla-av" style="width:52px;height:52px"><img src="assets/img/logo-navy.svg" alt="" style="width:40px;height:40px"></span><div style="flex:1"><h3 style="margin:0 0 4px">{t}</h3><p style="margin:0;font-size:16px">Isla is ABI&rsquo;s AI concierge. She answers from the same knowledge as this site on every page and every development, recommends a development, area or guide, and hands you to a named ABI advisor.</p></div><a href="#" class="btn" data-open-isla>Ask Isla</a></div>'
 JOURNEY_STEPS=[
@@ -162,8 +162,7 @@ def floorplans(live):
 def home():
     b=hero("ABI Group &middot; Florida property","Florida homes, guided from the UK","ABI is the hub for buying, selling and owning property around Orlando, with developments like AMBAR, a partner network, and Isla, ABI&rsquo;s AI concierge, who knows it all.",
       "ph-dusk",'<a class="btn light" href="developments.html">Explore developments</a><a class="btn ghost" href="#" data-open-isla>Ask Isla</a>')
-    b+=proof([(P("Years — to confirm"),"Years in Florida property","Source: "+P("to confirm")),(P("Volume — to confirm"),"Homes sold","Source: "+P("to confirm")),("35","Residences available, AMBAR Building 1","Sample. Live summary from ABI’s sales system"),(P("Affiliations — to confirm"),"Affiliations","Source: "+P("to confirm"))],
-      "Company proof points are placeholders until ABI confirms which figures it is happy to publish.")
+    b+=proof([("30+","Years of sales history in the US &amp; UK","Source: ABI"),("$6.5+ Billion","Sold","Source: ABI"),("35","Residences available, AMBAR Building 1","Sample. Live summary from ABI’s sales system")])
     tiles=''.join(f'<a class="panel" href="{h}" style="text-decoration:none">{line_icon(i)}<h3>{t}</h3><p style="font-size:16px;margin:0">{d}</p></a>' for h,i,t,d in [("buy.html","home","Buy","New development, resale, and what’s right for you."),("buying-from-the-uk.html","fx","From the UK","Six steps, costs, FIRPTA, ITIN, currency and timelines."),("sell.html","key","Sell","How ABI markets and sells a property."),("services.html","people","Services","Financing, FX, legal, tax and property management partners.")])
     b+=f'''<section class="section"><div class="wrap split"><div><span class="eyebrow">The ABI hub</span><h2>Everything ABI knows, in one place</h2><p class="lede">The company, the team, the markets, the buying journey and the services. Developments sit around the hub, each on a shared template.</p>
 <p>Two doors in: browse the sections, or ask Isla. Both lead to the same content, so the answers never disagree.</p><a class="textlink" href="about.html">About ABI</a></div><div class="grid g2">{tiles}</div></div></section>'''
@@ -217,7 +216,7 @@ def dev_template(fn,name,A):
 <section id="support"><span class="eyebrow">ABI support</span><h2>A partner, not just a broker</h2><div class="grid g3">{sup}</div><p class="rate-note" style="margin-top:10px">Shared sitewide section. Partner names {P("to confirm")}.</p></section>
 <section id="disclaimers"><span class="eyebrow">Disclaimers</span>{disclaimer(name)}</section>
 <section id="next"><span class="eyebrow">Next step</span><h2>Take the next step</h2><div class="grid g3"><div class="panel">{line_icon("home")}<h3>Buyer account</h3><p style="font-size:16px">Save residences and compare.</p><a href="#" class="textlink" data-open-account>Create account</a></div><div class="panel">{line_icon("cal")}<h3>Speak to an advisor</h3><p style="font-size:16px">30 minutes, UK-friendly times.</p><a class="textlink" href="{CAL}" target="_blank" rel="noopener">Book a call</a></div><div class="panel cool">{line_icon("chat")}<h3>Ask Isla</h3><p style="font-size:16px">ABI&rsquo;s AI concierge can answer questions about {name}, any time.</p><a href="#" class="textlink" data-open-isla>Open Isla</a></div></div></section>'''
-    lede=("Building 1: 132 residences, nine floor plans from studio to three bedrooms. "+P("One-line positioning — to confirm")) if A else "Placeholder project showing how the template behaves without live availability: the Availability section becomes ‘Register interest’."
+    lede=("Building 1: 132 residences, nine floor plans from studio to three bedrooms. "+P("One-line positioning — to confirm")) if A else "North Bay Village, Miami. Coming soon. "+P("Project details — to confirm")+" Register interest to hear first."
     btns='<a class="btn light" href="#availability">'+("View availability" if A else "Register interest")+'</a><a class="btn ghost" href="'+CAL+'" target="_blank" rel="noopener">Book a call</a>'
     b=hero("Development &middot; "+("Selling" if A else "Coming soon"),name,lede,"ph-dusk" if A else "ph-street",btns,crumbs=crumbs(("index.html","Home"),("developments.html","Developments"),(None,name)))
     if A: b+=proof([("132","Residences, Building 1","Source: ABI"),("35","Available now (sample)","Live feed in the build, sample in the mock"),("9","Floor plans","Source: ABI"),("Studio–3","Bedrooms","Source: ABI")])
@@ -255,13 +254,11 @@ def uk():
     page("buying-from-the-uk.html",b)
 
 def about():
-    secs=[("history","History"),("team","Team"),("affiliations","Affiliations"),("offices","Offices")]
+    secs=[("history","History"),("team","Team"),("offices","Offices")]
     team=''.join(f'<div class="card" style="box-shadow:none">{photo("ph-interior","Portrait placeholder",chr(32)+"style=\"aspect-ratio:4/5\"")}<div class="body"><h3>{P("Team member name")}</h3><span class="label">{P("Role")}</span><p>{P("Specialties")}</p><div class="meta"><a class="textlink" href="{CAL}" target="_blank" rel="noopener">Book a call</a></div></div></div>' for _ in range(4))
-    ms=''.join(f'<div class="kpi"><div class="v" style="font-size:22px">{P("year")}</div><div class="k">{P("milestone")}</div></div>' for _ in range(4))
-    af=''.join(f'<div class="panel linen" style="text-align:center;padding:36px 12px">{P("Affiliation logo")}</div>' for _ in range(4))
+    ms='<div class="kpi"><div class="v">30+</div><div class="k">Years of sales history in the US &amp; UK</div></div><div class="kpi"><div class="v">$6.5+ Billion</div><div class="k">Sold</div></div>'+''.join(f'<div class="kpi"><div class="v" style="font-size:22px">{P("year")}</div><div class="k">{P("milestone")}</div></div>' for _ in range(2))
     c=f'''<section id="history"><span class="eyebrow">History</span><h2>Our story</h2><div class="split" style="align-items:start"><p class="lede">{P("Company history, from the current abire.co.uk About page")}</p><div class="grid g2">{ms}</div></div></section>
 <section id="team"><span class="eyebrow">Team</span><h2>The people you’ll work with</h2><p>Profiles rewritten with roles, specialties and a booking link.</p><div class="grid g4">{team}</div></section>
-<section id="affiliations"><span class="eyebrow">Affiliations</span><h2>Memberships and partners</h2><div class="grid g4">{af}</div></section>
 <section id="offices"><span class="eyebrow">Offices</span><h2>UK and US</h2><div class="grid g2"><div class="panel"><h3>United Kingdom</h3><p>{P("UK office address")}<br>{P("UK number")}</p></div><div class="panel"><h3>United States</h3><p>{P("US office address")}<br>{P("US number")}</p></div></div></section>'''
     b=hero("About ABI","About ABI Group",P("One-line positioning — to confirm"),"ph-street",short=True,crumbs=crumbs(("index.html","Home"),(None,"About")))
     b+=f'<div class="with-side">{sidenav(secs)}<div class="content">{c}</div></div>'
@@ -353,11 +350,11 @@ def devpartners():
     page("developer-partners.html",b)
 
 def compare():
-    rows=[("Stage","Selling","Coming soon"),("Location","Orlando",P("TBC")),("Residences","132 (Building 1)",P("TBC")),("Floor plans","9, studio to 3 bed",P("TBC")),("Price from",P("to confirm"),P("TBC")),("Live availability","Yes (sample: 35 available)","No, register interest"),("Brand",P("to confirm"),P("TBC"))]
+    rows=[("Stage","Selling","Coming soon"),("Location","Orlando","North Bay Village, Miami"),("Residences","132 (Building 1)",P("TBC")),("Floor plans","9, studio to 3 bed",P("TBC")),("Price from",P("to confirm"),P("TBC")),("Live availability","Yes (sample: 35 available)","No, register interest"),("Brand",P("to confirm"),P("TBC"))]
     tbl=''.join(f'<tr><td>{a}</td><td data-col="1">{b}</td><td data-col="2">{c}</td><td data-col="3" style="opacity:.35">{P("—")}</td></tr>' for a,b,c in rows)
     b=hero("Compare","Compare up to three","Side-by-side developments, floor plans and areas, in plain attributes.","ph-street",short=True,crumbs=crumbs(("index.html","Home"),(None,"Compare")))
     b+=f'''<section class="section"><div class="wrap"><div class="chips" data-chipgroup style="margin-bottom:24px"><button class="chip" aria-pressed="true">Developments</button><button class="chip">Floor plans</button><button class="chip">Areas</button></div>
-<div class="tablewrap"><table class="t compare"><thead><tr><th>Attribute</th><th><a href="development-ambar.html">AMBAR</a></th><th><a href="development-two.html">Development Two</a></th><th><select data-compare="3" class="chip"><option value="">+ Add item</option><option value="x">[Third item]</option></select></th></tr></thead><tbody>{tbl}</tbody></table></div><p class="rate-note" style="margin-top:12px">Most useful once there are two or more projects. Values come from the development template.</p></div></section>'''
+<div class="tablewrap"><table class="t compare"><thead><tr><th>Attribute</th><th><a href="development-ambar.html">AMBAR</a></th><th><a href="development-continuum-miami.html">Continuum Miami</a></th><th><select data-compare="3" class="chip"><option value="">+ Add item</option><option value="x">[Third item]</option></select></th></tr></thead><tbody>{tbl}</tbody></table></div><p class="rate-note" style="margin-top:12px">Most useful once there are two or more projects. Values come from the development template.</p></div></section>'''
     page("compare.html",b)
 
 def events():
@@ -384,11 +381,11 @@ def client():
 
 def press():
     cov=''.join(f'<li>{P("Publication")}: {P("headline")} <span class="label" style="float:right">{P("date")}</span></li>' for _ in range(4))
-    aw=''.join(f'<div class="panel linen" style="text-align:center;padding:30px 10px">{P("Award / affiliation")}</div>' for _ in range(4))
+    aw=''.join(f'<div class="panel linen" style="text-align:center;padding:30px 10px">{P("Award")}</div>' for _ in range(4))
     roles=''.join(f'<tr><td>{P("Role title")}</td><td>{P("UK / US")}</td><td>{P("Full time")}</td><td style="text-align:right"><a class="textlink" href="contact.html">Apply</a></td></tr>' for _ in range(3))
-    b=hero("Press &amp; careers","Press and careers","Coverage, awards and affiliations, plus open roles and referral partner sign-up.","ph-street",short=True,crumbs=crumbs(("index.html","Home"),(None,"Press &amp; careers")))
+    b=hero("Press &amp; careers","Press and careers","Coverage and awards, plus open roles and referral partner sign-up.","ph-street",short=True,crumbs=crumbs(("index.html","Home"),(None,"Press &amp; careers")))
     b+=f'''<section class="section"><div class="wrap split" style="align-items:start"><div><span class="eyebrow">Press</span><h2>Coverage</h2><ul class="list-check">{cov}</ul><p style="margin-top:16px">Press enquiries: {P("press email")}</p></div>
-<div><span class="eyebrow">Awards &amp; affiliations</span><h2>Recognition</h2><div class="grid g2">{aw}</div></div></div></section>
+<div><span class="eyebrow">Awards</span><h2>Recognition</h2><div class="grid g2">{aw}</div></div></div></section>
 <section class="section alt"><div class="wrap"><span class="eyebrow">Careers</span><h2>Open roles</h2><div class="tablewrap"><table class="t"><thead><tr><th>Role</th><th>Location</th><th>Type</th><th></th></tr></thead><tbody>{roles}</tbody></table></div><p class="rate-note" style="margin-top:10px">Only if ABI wants a careers section (open decision).</p>
 <div class="panel" style="margin-top:30px"><h3>Referral partners</h3><p style="font-size:16px">Introduce buyers to ABI. <a href="brokers.html">Register as a referral partner</a></p></div></div></section>'''
     page("press-careers.html",b)
@@ -398,7 +395,7 @@ def notfound():
     page("404.html",'<section class="section" style="min-height:50vh"><div class="wrap"><span class="eyebrow">404</span><h1>Page not found</h1><p><a href="index.html">Return home</a></p></div></section>')
 
 if __name__=="__main__":
-    home(); developments(); dev_template("development-ambar.html","AMBAR",True); dev_template("development-two.html","Development Two",False)
+    home(); developments(); dev_template("development-ambar.html","AMBAR",True); dev_template("development-continuum-miami.html","Continuum Miami",False)
     buy(); uk(); about(); contact(); areas(); services(); sell(); insights(); article(); brokers(); investor(); devpartners(); compare(); events(); client(); press(); notfound()
     open(os.path.join(OUT,"robots.txt"),"w").write("User-agent: *\nDisallow: /\n")
     print("built",len(PAGES)+1,"html files")

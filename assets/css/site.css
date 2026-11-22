@@ -110,7 +110,7 @@ p{margin:0 0 1em}
 
 /* Proof strip */
 .proof{background:var(--navy);color:var(--stone)}
-.proof .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.proof .wrap{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:0}
 .proof .item{padding:40px 26px;border-left:1px solid rgba(196,163,90,.35)}
 .proof .item:first-child{border-left:0}
 .proof .fig{font-family:var(--font-body);font-size:44px;line-height:1;color:var(--stone);font-variant-numeric:lining-nums}
@@ -323,6 +323,7 @@ body.show-notes .placeholder{outline:1px solid var(--gold)}
   .sidenav a.on{border-left:0;border-bottom-color:var(--gold)}
   .proof .wrap{grid-template-columns:repeat(2,1fr)}
   .proof .item:nth-child(3){border-left:0}
+  .proof .wrap[style*="--cols:3"] .item:last-child{grid-column:1/-1}
   .proof .item{border-top:1px solid rgba(196,163,90,.25)}
   .footer .top{grid-template-columns:1fr 1fr}
   .av{grid-template-columns:1fr}

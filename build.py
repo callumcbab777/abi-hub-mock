@@ -75,7 +75,7 @@ def footer(fn):
           ("Partners",[("brokers.html","Brokers"),("developer-partners.html","Developer partners"),("events.html","Events"),("insights.html","Insights")]),
           ("ABI Group",[("about.html","About & team"),("press-careers.html","Press & careers"),("client-area.html","Client area"),("contact.html","Contact & book a call")])]
     c=''.join(f'<div><h4>{t}</h4><ul>'+''.join(f'<li><a href="{h}">{html.escape(l)}</a></li>' for h,l in ls)+'</ul></div>' for t,ls in cols)
-    return f'''<footer class="footer"><div class="wrap"><div class="top"><div><div class="mark"><img src="assets/img/logo-gold.svg" alt="ABI Group"><span>ABI&nbsp;GROUP</span></div>
+    return f'''<footer class="footer"><div class="wrap"><div class="top"><div><div class="mark"><img src="assets/img/logo-reversed.svg" alt="ABI Group"><span>ABI&nbsp;GROUP</span></div>
 <p style="max-width:32ch">Florida property for UK and international buyers. {P("Short company line — to confirm")}</p>
 <p style="font-size:14px">UK {P("UK number")}<br>US {P("US number")}<br>{P("Office addresses")}</p></div>{c}</div>
 <div class="base"><span>&copy; ABI Group {P("legal entity & licence statement")}</span><span>Mock for internal review &middot; not indexed &middot; Phase {m[2]} page</span></div></div></footer>'''
@@ -83,8 +83,8 @@ def footer(fn):
 def shared(fn):
     m=META[fn]
     return f'''
-<button class="isla-launch" aria-label="Ask Isla"><span class="isla-av"><img src="assets/img/logo-navy.svg" alt=""></span><span class="t">Ask Isla</span></button>
-<aside class="isla" aria-label="Isla, ABI's AI concierge"><header><span class="isla-av"><img src="assets/img/logo-navy.svg" alt=""></span><div><b>ISLA</b><small>ABI&rsquo;s AI concierge &middot; scripted preview</small></div><button class="x" aria-label="Close">×</button></header>
+<button class="isla-launch" aria-label="Ask Isla"><span class="isla-av"><img src="assets/img/logo-reversed.svg" alt=""></span><span class="t">Ask Isla</span></button>
+<aside class="isla" aria-label="Isla, ABI's AI concierge"><header><span class="isla-av"><img src="assets/img/logo-reversed.svg" alt=""></span><div><b>ISLA</b><small>ABI&rsquo;s AI concierge &middot; scripted preview</small></div><button class="x" aria-label="Close">×</button></header>
 <div class="ctx">Page context remembered: {html.escape(m[1])}</div><div class="log"></div><div class="quick"></div>
 <form class="composer"><button type="button" class="mic" aria-label="Voice (Phase 2)">🎙</button><input placeholder="Ask about buying, areas, AMBAR…" aria-label="Message Isla"><button aria-label="Send">→</button></form></aside>
 <div class="modal" id="account" role="dialog" aria-label="Buyer account"><div class="box"><button class="x" aria-label="Close">×</button>
@@ -119,7 +119,7 @@ def card_ambar(*a):
     return card(*a).replace('<a class="card"','<a class="card card-ambar"',1)
 def CARD_TWO(): return card("development-continuum-miami.html","Continuum Miami","Coming soon","soon","North Bay Village, Miami. Details to follow; register interest to hear first.",P("to confirm"),"ph-street")
 def isla_prompt(t="Not sure where to start? Ask Isla."):
-    return f'<div class="isla-prompt"><span class="isla-av" style="width:52px;height:52px"><img src="assets/img/logo-navy.svg" alt="" style="width:40px;height:40px"></span><div style="flex:1"><h3 style="margin:0 0 4px">{t}</h3><p style="margin:0;font-size:16px">Isla is ABI&rsquo;s AI concierge. She answers from the same knowledge as this site on every page and every development, recommends a development, area or guide, and hands you to a named ABI advisor.</p></div><a href="#" class="btn" data-open-isla>Ask Isla</a></div>'
+    return f'<div class="isla-prompt"><span class="isla-av" style="width:52px;height:52px"><img src="assets/img/logo-navy.svg" alt="" style="width:52px;height:52px"></span><div style="flex:1"><h3 style="margin:0 0 4px">{t}</h3><p style="margin:0;font-size:16px">Isla is ABI&rsquo;s AI concierge. She answers from the same knowledge as this site on every page and every development, recommends a development, area or guide, and hands you to a named ABI advisor.</p></div><a href="#" class="btn" data-open-isla>Ask Isla</a></div>'
 JOURNEY_STEPS=[
  ("Introductory call","A conversation with an ABI advisor about your goals, budget, currency and timeline. Book at a UK-friendly time."),
  ("Choose a residence","Shortlist homes, compare floor plans and availability, and save favourites to your buyer account."),

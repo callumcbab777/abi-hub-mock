@@ -221,8 +221,8 @@ table.t tr:nth-child(even) td{background:var(--linen)}
 
 /* Isla */
 .isla-launch{position:fixed;right:22px;bottom:22px;z-index:70;display:flex;align-items:center;gap:10px;background:var(--navy);color:var(--stone);border:1px solid var(--gold);border-radius:40px;padding:8px 18px 8px 8px;cursor:pointer;box-shadow:var(--shadow);font-family:var(--font-ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-.isla-av{width:34px;height:34px;border-radius:50%;background:var(--navy-pale);display:grid;place-items:center;flex-shrink:0}
-.isla-av img{width:26px;height:26px}
+.isla-av{width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;background:none}
+.isla-av img{width:34px;height:34px}
 .isla{position:fixed;right:22px;bottom:86px;z-index:71;width:380px;max-width:calc(100vw - 24px);height:560px;max-height:calc(100vh - 120px);background:var(--navy-pale);border:1px solid rgba(28,43,74,.2);box-shadow:0 30px 60px -20px rgba(15,29,53,.5);display:none;flex-direction:column}
 .isla.open{display:flex}
 .isla header{display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--navy);color:var(--stone)}
